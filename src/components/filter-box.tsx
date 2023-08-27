@@ -19,9 +19,13 @@ const FilterBox = () => {
         gap={4}
         w="full"
       >
-        <HStack w="full">
+        <HStack
+          w="full"
+          flexWrap={{ base: "wrap", md: "nowrap" }}
+          gap={{ base: 4, md: 2 }}
+        >
           {["Frontend", "CSS", "JavaScript"].map((item) => (
-            <ButtonGroup isAttached size="sm">
+            <ButtonGroup isAttached size="sm" key={item}>
               <Button
                 bgColor="filterTabletsCyan.500"
                 color="darkCyan.500"
@@ -47,7 +51,7 @@ const FilterBox = () => {
           ))}
         </HStack>
 
-        <Button variant="link" color="darkCyan.500">
+        <Button variant="link" _hover={{ color: "darkCyan.500" }}>
           Clear
         </Button>
       </HStack>

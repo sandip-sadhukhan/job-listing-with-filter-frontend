@@ -27,7 +27,13 @@ export default function Home() {
           <FilterBox />
 
           {/* Job Lists */}
-          <VStack as="section" my={14} mb={10} w="full" gap={6}>
+          <VStack
+            as="section"
+            mt={{ base: 32, md: 14 }}
+            mb={10}
+            w="full"
+            gap={{ base: 12, md: 6 }}
+          >
             {jobs.map((job) => (
               <JobCard key={job.id} job={job} />
             ))}

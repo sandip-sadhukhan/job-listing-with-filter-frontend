@@ -3,11 +3,13 @@ import {
   Button,
   Card,
   CardBody,
+  Divider,
   HStack,
   Heading,
   Tag,
   Text,
   VStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 
 interface Job {
@@ -27,28 +29,41 @@ interface Job {
 }
 
 const JobCard = ({ job }: { job: Job }) => {
+  var isMobileDevice = useBreakpointValue({ base: true, md: false });
   return (
     <Card shadow="xl" w="full">
       <CardBody
         borderLeft={job.featured ? "5px solid" : "none"}
         borderLeftColor={job.featured ? "darkCyan.500" : "none"}
-        px={8}
-        py={7}
+        px={{ base: 5, md: 8 }}
+        py={{ base: 5, md: 7 }}
         borderRadius="md"
       >
-        <HStack justifyContent="space-between">
+        <HStack
+          justifyContent="space-between"
+          flexDir={{ base: "column", md: "row" }}
+        >
           {/* Photo & Info */}
-          <HStack gap={6}>
-            <Avatar src={job.logo} size="xl" />
+          <HStack
+            gap={{ base: 2, md: 6 }}
+            flexDir={{ base: "column", md: "row" }}
+            align={{ base: "start", md: "center" }}
+            w={{ base: "full", md: "auto" }}
+          >
+            <Avatar
+              src={job.logo}
+              size={{ base: "lg", md: "xl" }}
+              mt={{ base: -12, md: 0 }}
+            />
 
-            <VStack align="start">
+            <VStack align="start" gap={{ base: 3, md: 2 }}>
               <HStack>
                 <Heading
                   as="h3"
                   size="md"
                   fontSize="lg"
                   color="darkCyan.500"
-                  mr={1}
+                  mr={{ base: 3, md: 1 }}
                 >
                   {job.company}
                 </Heading>
@@ -72,8 +87,8 @@ const JobCard = ({ job }: { job: Job }) => {
               <Heading
                 as="h2"
                 size="md"
-                fontSize="xl"
-                color="darkCyan.500"
+                fontSize={{ base: "lg", md: "xl" }}
+                color={{ base: "darkGrayishCyan.500", md: "darkCyan.500" }}
                 cursor="pointer"
               >
                 {job.position}
@@ -86,24 +101,34 @@ const JobCard = ({ job }: { job: Job }) => {
             </VStack>
           </HStack>
 
+          <Divider
+            hidden={!isMobileDevice}
+            borderColor="blackAlpha.500"
+            mt={2}
+            mb={3}
+          />
+
           {/* Role, level & languages */}
-          <HStack justifyContent="start" alignItems="center" gap={3}>
+          <HStack
+            justifyContent="start"
+            alignItems="center"
+            gap={3}
+            flexWrap={{ base: "wrap", md: "nowrap" }}
+          >
             {[job.role, job.level, ...job.languages, ...job.tools].map(
               (item) => (
-                <VStack w="full">
-                  <Button
-                    size="sm"
-                    key={item}
-                    bgColor="filterTabletsCyan.500"
-                    color="darkCyan.500"
-                    _hover={{
-                      bgColor: "darkCyan.500",
-                      color: "white",
-                    }}
-                  >
-                    {item}
-                  </Button>
-                </VStack>
+                <Button
+                  size="sm"
+                  key={item}
+                  bgColor="filterTabletsCyan.500"
+                  color="darkCyan.500"
+                  _hover={{
+                    bgColor: "darkCyan.500",
+                    color: "white",
+                  }}
+                >
+                  {item}
+                </Button>
               )
             )}
           </HStack>
