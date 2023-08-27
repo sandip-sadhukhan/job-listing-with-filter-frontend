@@ -17,6 +17,10 @@ const initialState: JobState = {
 
 const ALL_ROLES = Array.from(new Set(jobs.map((obj) => obj.role)));
 const ALL_LEVELS = Array.from(new Set(jobs.map((obj) => obj.level)));
+const ALL_LANGUAGES = Array.from(
+  new Set(jobs.map((obj) => obj.languages).flat())
+);
+const ALL_TOOLS = Array.from(new Set(jobs.map((obj) => obj.tools).flat()));
 
 export const jobSlice = createSlice({
   name: "jobs",
@@ -62,7 +66,56 @@ export const jobSlice = createSlice({
     clearFilter: (state) => {
       state.filteredKeywords = [];
     },
-    calculateFilteredJobs: (state) => {},
+    calculateFilteredJobs: (state) => {
+      state.filteredJobs = [...state.allJobs];
+
+      // If no filters are selected, then it will be all Jobs.
+      if (state.filteredKeywords.length < 0) {
+        return;
+      }
+
+      // If role is added into filter, then filter by roles.
+      const selectedRole = state.filteredKeywords.find((obj) =>
+        ALL_ROLES.includes(obj)
+      );
+
+      if (selectedRole) {
+        state.filteredJobs = state.filteredJobs.filter(
+          (job) => job.role === selectedRole
+        );
+      }
+
+      // If level is added into filter, then filter by level.
+      const selectedLevel = state.filteredKeywords.find((obj) =>
+        ALL_LEVELS.includes(obj)
+      );
+
+      if (selectedLevel) {
+        state.filteredJobs = state.filteredJobs.filter(
+          (job) => job.level === selectedLevel
+        );
+      }
+
+      // If languages are added into filter, then filter them.
+      const selectedLanguages = state.filteredKeywords.filter((obj) =>
+        ALL_LANGUAGES.includes(obj)
+      );
+      if (selectedLanguages.length > 0) {
+        state.filteredJobs = state.filteredJobs.filter((job) =>
+          selectedLanguages.every((item) => job.languages.includes(item))
+        );
+      }
+
+      // If tools are added into filter, then filter them.
+      const selectedTools = state.filteredKeywords.filter((obj) =>
+        ALL_TOOLS.includes(obj)
+      );
+      if (selectedTools.length > 0) {
+        state.filteredJobs = state.filteredJobs.filter((job) =>
+          selectedTools.every((item) => job.tools.includes(item))
+        );
+      }
+    },
   },
 });
 
