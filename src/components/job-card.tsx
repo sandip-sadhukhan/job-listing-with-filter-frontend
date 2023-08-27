@@ -1,3 +1,4 @@
+import { addFilter } from "@/redux/slices/jobSlice";
 import {
   Avatar,
   Button,
@@ -11,8 +12,9 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
 
-interface Job {
+export interface Job {
   id: number;
   company: string;
   logo: string;
@@ -29,7 +31,10 @@ interface Job {
 }
 
 const JobCard = ({ job }: { job: Job }) => {
-  var isMobileDevice = useBreakpointValue({ base: true, md: false });
+  const isMobileDevice = useBreakpointValue({ base: true, md: false });
+
+  const dispatch = useDispatch();
+
   return (
     <Card shadow="xl" w="full">
       <CardBody
@@ -126,6 +131,7 @@ const JobCard = ({ job }: { job: Job }) => {
                     bgColor: "darkCyan.500",
                     color: "white",
                   }}
+                  onClick={() => dispatch(addFilter(item))}
                 >
                   {item}
                 </Button>

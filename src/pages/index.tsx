@@ -3,9 +3,21 @@ import { Container, VStack } from "@chakra-ui/react";
 import FilterBox from "@/components/filter-box";
 import JobCard from "@/components/job-card";
 import UpperBgSection from "@/components/upper-bg-section";
-import jobs from "@/data/jobs.json";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { useEffect } from "react";
+import { calculateFilteredJobs } from "@/redux/slices/jobSlice";
 
 export default function Home() {
+  const { filteredJobs, filteredKeywords } = useSelector(
+    (state: RootState) => state.jobs
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(calculateFilteredJobs());
+  }, [filteredKeywords]);
+
   return (
     <>
       <Head>
@@ -34,7 +46,7 @@ export default function Home() {
             w="full"
             gap={{ base: 12, md: 6 }}
           >
-            {jobs.map((job) => (
+            {filteredJobs.map((job) => (
               <JobCard key={job.id} job={job} />
             ))}
           </VStack>
