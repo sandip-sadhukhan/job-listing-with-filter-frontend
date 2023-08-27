@@ -10,12 +10,28 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-const JobCard = () => {
+interface Job {
+  id: number;
+  company: string;
+  logo: string;
+  new: boolean;
+  featured: boolean;
+  position: string;
+  role: string;
+  level: string;
+  postedAt: string;
+  contract: string;
+  location: string;
+  languages: string[];
+  tools: string[];
+}
+
+const JobCard = ({ job }: { job: Job }) => {
   return (
     <Card shadow="xl" w="full">
       <CardBody
-        borderLeft="5px solid"
-        borderLeftColor="darkCyan.500"
+        borderLeft={job.featured ? "5px solid" : "none"}
+        borderLeftColor={job.featured ? "darkCyan.500" : "none"}
         px={8}
         py={7}
         borderRadius="md"
@@ -23,7 +39,7 @@ const JobCard = () => {
         <HStack justifyContent="space-between">
           {/* Photo & Info */}
           <HStack gap={6}>
-            <Avatar src="/images/photosnap.svg" size="xl" />
+            <Avatar src={job.logo} size="xl" />
 
             <VStack align="start">
               <HStack>
@@ -34,15 +50,21 @@ const JobCard = () => {
                   color="darkCyan.500"
                   mr={1}
                 >
-                  Photosnap
+                  {job.company}
                 </Heading>
-                <Tag bgColor="darkCyan.500" color="white" borderRadius="full">
+                <Tag
+                  bgColor="darkCyan.500"
+                  color="white"
+                  borderRadius="full"
+                  hidden={!job.new}
+                >
                   <Text mt={1}>NEW!</Text>
                 </Tag>
                 <Tag
                   bgColor="darkGrayishCyan.500"
                   color="white"
                   borderRadius="full"
+                  hidden={!job.featured}
                 >
                   <Text mt={1}>FEATURED</Text>
                 </Tag>
@@ -54,31 +76,36 @@ const JobCard = () => {
                 color="darkCyan.500"
                 cursor="pointer"
               >
-                Senior Frontend Developer
+                {job.position}
               </Heading>
               <HStack divider={<Text>•</Text>} gap={3} color="grayishCyan.500">
-                <Text>1d ago</Text>
-                <Text>Full Time</Text>
-                <Text>USA only</Text>
+                <Text>{job.postedAt}</Text>
+                <Text>{job.contract}</Text>
+                <Text>{job.location}</Text>
               </HStack>
             </VStack>
           </HStack>
 
           {/* Role, level & languages */}
-          <HStack>
-            {["Frontend", "Senior", "HTML", "CSS", "JavaScript"].map((item) => (
-              <Button
-                key={item}
-                bgColor="filterTabletsCyan.500"
-                color="darkCyan.500"
-                _hover={{
-                  bgColor: "darkCyan.500",
-                  color: "white",
-                }}
-              >
-                {item}
-              </Button>
-            ))}
+          <HStack justifyContent="start" alignItems="center" gap={3}>
+            {[job.role, job.level, ...job.languages, ...job.tools].map(
+              (item) => (
+                <VStack w="full">
+                  <Button
+                    size="sm"
+                    key={item}
+                    bgColor="filterTabletsCyan.500"
+                    color="darkCyan.500"
+                    _hover={{
+                      bgColor: "darkCyan.500",
+                      color: "white",
+                    }}
+                  >
+                    {item}
+                  </Button>
+                </VStack>
+              )
+            )}
           </HStack>
         </HStack>
       </CardBody>

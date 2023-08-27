@@ -3,6 +3,7 @@ import { Container, VStack } from "@chakra-ui/react";
 import FilterBox from "@/components/filter-box";
 import JobCard from "@/components/job-card";
 import UpperBgSection from "@/components/upper-bg-section";
+import jobs from "@/data/jobs.json";
 
 export default function Home() {
   return (
@@ -27,8 +28,8 @@ export default function Home() {
 
           {/* Job Lists */}
           <VStack as="section" my={14} mb={10} w="full" gap={6}>
-            {[1, 2, 3, 4].map((item) => (
-              <JobCard key={item} />
+            {jobs.map((job) => (
+              <JobCard key={job.id} job={job} />
             ))}
           </VStack>
         </Container>
