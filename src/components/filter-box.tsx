@@ -1,10 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  HStack,
-  IconButton,
-} from "@chakra-ui/react";
+import { Button, ButtonGroup, HStack, IconButton } from "@chakra-ui/react";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -18,61 +12,54 @@ const FilterBox = () => {
   const dispatch = useDispatch();
 
   return (
-    <Container
-      maxW="container.lg"
-      position="absolute"
-      top="-41px"
-      left="0"
+    <HStack
+      py={4}
+      px={8}
+      bg="white"
+      shadow="xl"
+      borderRadius="md"
+      gap={4}
+      w="full"
       hidden={filteredKeywords.length === 0}
-      zIndex={10}
+      mt={-10}
     >
-      <HStack
-        py={4}
-        px={8}
-        bg="white"
-        shadow="xl"
-        borderRadius="md"
-        gap={4}
-        w="full"
-      >
-        <HStack w="full" flexWrap="wrap" gap={{ base: 4, md: 2 }}>
-          {filteredKeywords.map((item) => (
-            <ButtonGroup isAttached size="sm" key={item}>
-              <Button
-                bgColor="filterTabletsCyan.500"
-                color="darkCyan.500"
-                borderRadius="sm"
-                cursor="auto"
-                _hover={{
-                  bgColor: "filterTabletsCyan.500",
-                }}
-              >
-                {item}
-              </Button>
-              <IconButton
-                bgColor="darkCyan.500"
-                color="white"
-                _hover={{
-                  bgColor: "darkGrayishCyan.500",
-                }}
-                icon={<FaTimes />}
-                aria-label="Delete filter"
-                borderRadius="sm"
-                onClick={() => dispatch(removeFilter(item))}
-              />
-            </ButtonGroup>
-          ))}
-        </HStack>
-
-        <Button
-          variant="link"
-          _hover={{ color: "darkCyan.500" }}
-          onClick={() => dispatch(clearFilter())}
-        >
-          Clear
-        </Button>
+      <HStack w="full" flexWrap="wrap" gap={{ base: 4, md: 2 }}>
+        {filteredKeywords.map((item) => (
+          <ButtonGroup isAttached size="sm" key={item}>
+            <Button
+              bgColor="filterTabletsCyan.500"
+              color="darkCyan.500"
+              borderRadius="sm"
+              cursor="auto"
+              _hover={{
+                bgColor: "filterTabletsCyan.500",
+              }}
+            >
+              {item}
+            </Button>
+            <IconButton
+              bgColor="darkCyan.500"
+              color="white"
+              _hover={{
+                bgColor: "darkGrayishCyan.500",
+              }}
+              icon={<FaTimes />}
+              aria-label="Delete filter"
+              borderRadius="sm"
+              onClick={() => dispatch(removeFilter(item))}
+            />
+          </ButtonGroup>
+        ))}
       </HStack>
-    </Container>
+
+      <Button
+        variant="link"
+        _hover={{ color: "darkCyan.500" }}
+        onClick={() => dispatch(clearFilter())}
+      >
+        Clear
+      </Button>
+    </HStack>
   );
 };
 

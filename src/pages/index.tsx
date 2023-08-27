@@ -16,7 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(calculateFilteredJobs());
-  }, [filteredKeywords]);
+  }, [filteredKeywords, dispatch]);
 
   return (
     <>
@@ -34,14 +34,14 @@ export default function Home() {
         <UpperBgSection />
 
         {/* Lower Section */}
-        <Container maxW="container.lg" position="relative">
+        <Container maxW="container.lg">
           {/* Filter Box */}
           <FilterBox />
 
           {/* Job Lists */}
           <VStack
             as="section"
-            mt={{ base: 32, md: 14 }}
+            mt={{ base: 16, md: 14 }}
             mb={10}
             w="full"
             gap={{ base: 12, md: 6 }}
